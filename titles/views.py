@@ -45,5 +45,5 @@ class TitleViewSet(viewsets.ModelViewSet):
         method = self.request.method
         if method in ['POST', 'PATCH']:
             return TitleSerializer
-        if method == 'GET':
+        elif method == 'GET':
             return TitleSafeSerializer
