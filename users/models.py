@@ -1,21 +1,46 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+
+from .managers import UserManager
 
 
-class User(AbstractUser):
-    class UserRole(models.TextChoices):
-        USER = 'user'
-        ADMIN = 'admin'
-        MODERATOR = 'moderator'
+class User(AbstractBaseUser, PermissionsMixin):
+    ROLES = (
+        ('user', 'user'),
+        ('moderator', 'moderator'),
+        ('admin', 'admin'),
+        ('Django admin', 'Django admin')
+    )
 
     email = models.EmailField(unique=True)
-    role = models.CharField(max_length=20, choices=UserRole.choices,
-                            default=UserRole.USER)
-    bio = models.TextField(blank=True)
-    confirmation_code = models.TextField(null=True, default='')
+    username = models.CharField(max_length=50,
+                                blank=True,
+                                null=True,
+                                default='None',
+                                )
+    role = models.CharField(max_length=20, choices=ROLES, default='user')
+    bio = models.TextField(blank=True,
+                           null=True,
+                           )
+    first_name = models.CharField(max_length=40,
+                                  blank=True,
+                                  null=True,
+                                  )
+    last_name = models.CharField(max_length=40,
+                                 blank=True,
+                                 null=True,
+                                 )
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    last_login = models.DateTimeField(null=True, blank=True)
 
-    def __str__(self):
-        return self.username
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
-    class Meta:
-        ordering = ['id']
+    objects = UserManager()
+
+    def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+        return self
