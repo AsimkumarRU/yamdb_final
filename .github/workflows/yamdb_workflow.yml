@@ -46,6 +46,9 @@ jobs:
             tags: asimkumar1986/yamdb_final:latest
 
   deploy:
+    env:
+      PROJECT_ROOT: ~/www/yamdb_final
+
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
