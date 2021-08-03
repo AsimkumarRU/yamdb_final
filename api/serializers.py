@@ -102,9 +102,7 @@ class ConfirmationCodeSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token = token.access_token
-
-        return token
+        return token.access_token
 
 
 class MyTokenObtainPairView(TokenObtainPairView):

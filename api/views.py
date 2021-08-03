@@ -48,10 +48,9 @@ class ReviewViewSet(ModelViewSet):
         serializer.save(author=self.request.user, title=title)
 
     def get_queryset(self):
-        queryset = get_object_or_404(
+        return get_object_or_404(
             Title, pk=self.kwargs['title_id']
         ).reviews.all()
-        return queryset
 
     def get_serializer_context(self):
         title = get_object_or_404(Title, pk=self.kwargs['title_id'])
@@ -179,7 +178,7 @@ def send_email(request):
 
 @api_view(http_method_names=['POST'])
 @permission_classes((AllowAny, ))
-def send_JWT(request):
+def send_jwt(request):
     user = User.objects.get(email=request.data.get('email'))
     if confirmation_code_generator.check_token(user,
                                                request.data.get(
@@ -204,10 +203,8 @@ class UserViewSet(viewsets.ViewSetMixin,
     pagination_class = PageNumberPagination
 
     def get_object(self):
-        user = get_object_or_404(
-            self.queryset, username=self.kwargs.get('username')
-        )
-        return user
+        return get_object_or_404(
+            self.queryset, username=self.kwargs.get('username'))
 
     @action(methods=['GET', 'PATCH', 'DELETE'],
             detail=False,
