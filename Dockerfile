@@ -1,6 +1,6 @@
 FROM python:3.8.5
 RUN mkdir /code
 COPY requirements.txt /codе
-RUN pip install -U pip && pip install -r /code/requirements.txt
+RUN pip install -r /code/requirements.txt
 COPY . /code
 CMD gunicorn api_yamdb.wsgi:application --bind 0.0.0.0:8000
