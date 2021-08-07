@@ -1,5 +1,5 @@
 FROM python:3.8.5
-WORKDIR /code
+RUN mkdir /code
 COPY requirements.txt /codе
 RUN pip install -U pip && pip install -r /code/requirements.txt
 COPY . /code
