@@ -3,7 +3,7 @@
 # To update, run:
 #
 #    pip-compile --output-file=requirements.txt requirements.in
-#
+
 asgiref==3.2.10            # via django
 attrs==19.3.0             # via pytest
 certifi==2020.4.5.1       # via requests
